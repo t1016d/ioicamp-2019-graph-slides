@@ -1,0 +1,944 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Graph</title>
+    <meta name="description" content="Graph course for IOIcamp 2019 by NTU (https://ioicamp2019.csie.org)">
+    <link rel="stylesheet" href="css/reveal.css">
+    <link rel="stylesheet" href="css/style.css">
+    <link id="theme" rel="stylesheet" href="css/theme/black.css">
+    <link rel="stylesheet" href="lib/css/zenburn.css">
+    <script>
+      var link = document.createElement( 'link' );
+      link.rel = 'stylesheet';
+      link.type = 'text/css';
+      link.href = window.location.search.match( /print-pdf/gi ) ? 'css/print/pdf.css' : 'css/print/paper.css';
+      document.getElementsByTagName( 'head' )[0].appendChild( link );
+      
+    </script>
+  </head>
+  <body>
+    <div class="reveal">
+      <div class="slides">
+        <section>
+          <h1>圖論</h1>
+          <h3>IOICamp 2019</h3>
+        </section>
+        <section>
+          <section data-markdown>
+            <script type="text/template">
+              ## 大綱
+              * DFS
+              * BCC
+              * SCC
+              * 各種圖
+              * 一些圖的經典問題
+              
+              // 大致上就是講義上的東西
+              
+            </script>
+          </section>
+        </section>
+        <section>
+          <section data-markdown>
+            <script type="text/template">
+              ## DFS
+              
+            </script>
+          </section>
+          <section data-markdown>
+            <script type="text/template">
+              ## 深度優先搜索
+              ### Depth First Search
+              
+            </script>
+          </section>
+          <section data-markdown>
+            <script type="text/template">
+              對，就是那個有名的 DFS
+              
+            </script>
+          </section>
+          <section data-markdown>
+            <script type="text/template">
+              ### 邊分類
+              * 樹邊 (tree edge)：走到兒子的邊。
+              * 回邊 (back edge)：走到祖先的邊。
+              * 前向邊 (forward edge)：走到非兒子的子孫的邊。
+              * 交錯邊 (cross edge)：走到非直系血親的邊。
+              
+            </script>
+          </section>
+          <section data-markdown>
+            <script type="text/template">
+              ![](img/edge_type.png)
+              
+            </script>
+          </section>
+          <section data-markdown>
+            <script type="text/template">
+              無向圖不會有 \_\_\_\_\_\_ 跟 \_\_\_\_\_\_
+              
+            </script>
+          </section>
+          <section data-markdown>
+            <script type="text/template">
+              ### 時間戳
+              #### timestamp
+              就是進入跟離開一個節點的時間點
+              
+            </script>
+          </section>
+          <section data-markdown>
+            <script type="text/template">
+              ![](img/timestamp.png)
+              
+            </script>
+          </section>
+        </section>
+        <section>
+          <section data-markdown>
+            <script type="text/template">
+              ## BCC
+              
+            </script>
+          </section>
+          <section data-markdown>
+            <script type="text/template">
+              ## 無向圖的雙連通
+              
+            </script>
+          </section>
+          <section data-markdown>
+            <script type="text/template">
+              ### 點雙連通
+              * 割點、關節點：移除這個點會讓圖不連通
+              * 點雙連通：沒有割點
+              
+            </script>
+          </section>
+          <section data-markdown>
+            <script type="text/template">
+              ![](img/bcc.png)
+              
+            </script>
+          </section>
+          <section data-markdown>
+            <script type="text/template">
+              ### 找割點？
+              
+            </script>
+          </section>
+          <section data-markdown>
+            <script type="text/template">
+              ### ~~Trivago~~
+              
+            </script>
+          </section>
+          <section data-markdown>
+            <script type="text/template">
+              ### Tarjan
+              
+            </script>
+          </section>
+          <section data-markdown>
+            <script type="text/template">
+              ![](img/bcc.png)
+              
+            </script>
+          </section>
+          <section data-markdown>
+            <script type="text/template">
+              #### low 函數
+              針對特定一次的 DFS，low($x$) 為點 $x$ 在只透過自己和子樹的情況下可以回到的深度最小的祖先的深度。
+              
+            </script>
+          </section>
+          <section data-markdown>
+            <script type="text/template">
+              範例程式碼請參考講義
+              
+            </script>
+          </section>
+          <section data-markdown>
+            <script type="text/template">
+              ### 邊雙連通
+              * 割邊、橋：移除這個邊會讓圖不連通
+              * 邊雙連通：沒有橋
+              
+            </script>
+          </section>
+          <section data-markdown>
+            <script type="text/template">
+              ### 找橋？
+              
+            </script>
+          </section>
+          <section data-markdown>
+            <script type="text/template">
+              ### Tarjan
+              (again)
+              
+            </script>
+          </section>
+          <section data-markdown>
+            <script type="text/template">
+              ### Tarjan
+              * 只有樹邊有可能是橋
+              * 看兒子能不能不透過這條邊連回來
+              
+            </script>
+          </section>
+          <section data-markdown>
+            <script type="text/template">
+              大致上就是差不多的 low 函數
+              
+            </script>
+          </section>
+          <section data-markdown>
+            <script type="text/template">
+              小心重邊
+              
+            </script>
+          </section>
+          <section data-markdown>
+            <script type="text/template">
+              範例程式碼一樣參考講義
+              
+            </script>
+          </section>
+          <section data-markdown>
+            <script type="text/template">
+              ### 真正的 BCC
+              Bi-Connected Component
+              
+              雙連通元件
+              
+            </script>
+          </section>
+          <section data-markdown>
+            <script type="text/template">
+              ### 邊 BCC
+              一個 **極大** 的子圖，使得整個子圖是邊雙連通的
+              
+            </script>
+          </section>
+          <section data-markdown>
+            <script type="text/template">
+              ##### 結論
+              把橋拔掉後的每一小塊恰好就是所有邊 BCC
+              
+            </script>
+          </section>
+          <section data-markdown>
+            <script type="text/template">
+              ### 點 BCC
+              一個 **極大** 的子圖，使得整個子圖是點雙連通的
+              
+            </script>
+          </section>
+          <section data-markdown>
+            <script type="text/template">
+              拔割點 !?
+              
+            </script>
+          </section>
+          <section data-markdown>
+            <script type="text/template">
+              ![](img/vertex_bcc.png)
+              
+            </script>
+          </section>
+          <section data-markdown>
+            <script type="text/template">
+              ### 點 BCC
+              * 以邊為主體
+              * 根據兒子的 low 是否小於自己深度
+                * 這個方向過去的邊跟這邊往父親的邊在同一個 BCC
+                * 這個方向過去的邊徹底分家
+              
+            </script>
+          </section>
+          <section data-markdown>
+            <script type="text/template">
+              ![](img/bcc.png)
+              
+            </script>
+          </section>
+          <section data-markdown>
+            <script type="text/template">
+              #### 用 Stack 維護！
+              
+            </script>
+          </section>
+          <section data-markdown>
+            <script type="text/template">
+              範例程式碼...講義 XD
+              
+            </script>
+          </section>
+        </section>
+        <section>
+          <section data-markdown>
+            <script type="text/template">
+              ## SCC
+              
+            </script>
+          </section>
+          <section data-markdown>
+            <script type="text/template">
+              ## 有向圖的強連通
+              
+            </script>
+          </section>
+          <section data-markdown>
+            <script type="text/template">
+              ### 強連通
+              對於任意兩點 $A$, $B$
+              * 存在路徑從 $A$ 到 $B$
+              * 存在路徑從 $B$ 到 $A$
+              
+            </script>
+          </section>
+          <section data-markdown>
+            <script type="text/template">
+              ### 強連通元件
+              #### Strongly Connected Component, SCC
+              一個 **極大** 的子圖，使得整個子圖是強連通的
+              
+            </script>
+          </section>
+          <section data-markdown>
+            <script type="text/template">
+              ![](img/scc.png)
+              
+            </script>
+          </section>
+          <section data-markdown>
+            <script type="text/template">
+              ### Tarjan
+              (again ?)
+              
+            </script>
+          </section>
+          <section data-markdown>
+            <script type="text/template">
+              ![](img/scc_drake_meme.jpg)
+              
+            </script>
+          </section>
+          <section data-markdown>
+            <script type="text/template">
+              ##### Kosaraju 觀察
+              存在好的順序，使得
+              
+              「依序 DFS 能走到的區域恰好是下一塊 SCC」
+              
+            </script>
+          </section>
+          <section data-markdown>
+            <script type="text/template">
+              ![](img/kosaraju.png)
+              
+            </script>
+          </section>
+          <section data-markdown>
+            <script type="text/template">
+              ##### Kosaraju 好的順序
+              對兩個點 $x, y$
+              * $x$ 與 $y$ 兩個方向都可到 -> 隨便
+              * $x$ 與 $y$ 兩個方向都不可到 -> 隨便
+              * WLOG, 只有 $x$ 可到 $y$
+                * 好的順序中必須先走 $y$ 再走 $x$
+              
+            </script>
+          </section>
+          <section data-markdown>
+            <script type="text/template">
+              ##### Kosaraju 靈光乍現
+              * 將原圖 $G$ 的邊通通反向形成 $G'$
+              * 對 $G'$ 進行完整的 DFS，紀錄時間戳
+              * 按照 **離開標記** 由大到小排，就是「好的順序」
+              
+            </script>
+          </section>
+          <section data-markdown>
+            <script type="text/template">
+              ![](img/timestamp.png)
+              
+            </script>
+          </section>
+          <section data-markdown>
+            <script type="text/template">
+              ##### Kosaraju 完成
+              * 求出好的順序
+              * 按照好的順序 DFS，每次走到的點就是下一塊 SCC
+              
+            </script>
+          </section>
+          <section data-markdown>
+            <script type="text/template">
+              講義一樣有範例程式碼
+              
+            </script>
+          </section>
+          <section data-markdown>
+            <script type="text/template">
+              ##### 補充
+              * 一般網路、書上比較常看到是
+                * 用 $G$ 求好的順序
+                * 在 $G'$ 上用好的順序 DFS
+              
+            </script>
+          </section>
+          <section data-markdown>
+            <script type="text/template">
+              ##### 補充
+              * Kosaraju 邏輯、細節很簡單，我們沒有把他放進寶貴的 codebook
+                * 一個演算法「好不好寫」跟「code 長不長」不完全相關
+              
+            </script>
+          </section>
+        </section>
+        <section>
+          <section data-markdown>
+            <script type="text/template">
+              ## 各種圖
+              
+            </script>
+          </section>
+          <section data-markdown>
+            <script type="text/template">
+              ### 樹
+              
+            </script>
+          </section>
+          <section data-markdown>
+            <script type="text/template">
+              ##### 樹上查詢
+              給定一棵 $N$ 個點的有根帶點權樹，接著$Q$個操作：
+              * 把以 $x$ 為根的子樹的所有節點權重同加上 $c$
+              * 把以 $x$ 為根的子樹的所有節點權重變成 $c$
+              * 詢問以 $x$ 為根的子樹的權重最大值
+              
+              $1 \le N, Q \le 10^5$
+              
+            </script>
+          </section>
+          <section data-markdown>
+            <script type="text/template">
+              ##### 樹壓平
+              ![](img/tree_interv.svg)
+              
+            </script>
+          </section>
+          <section data-markdown>
+            <script type="text/template">
+              ##### [Tree](http://poj.org/problem?id=1741)
+              給一棵 $N$ 個點的樹，樹的邊有權重表示距離，求距離不超過 $k$ 的點對數。
+              
+              $N \le 10^4$
+              
+            </script>
+          </section>
+          <section data-markdown>
+            <script type="text/template">
+              ##### 樹分治
+              * 存在拔掉後每塊大小都不超過一半的重心
+              * 如果拿重心去分治，只剩合併
+                * 合併就是計算通過重心的路徑，直接 DFS/BFS 一陣再亂搞可以做到 $O(N \log N)$
+              * 總複雜度 $O(N \log^2 N)$
+              
+            </script>
+          </section>
+          <section data-markdown>
+            <script type="text/template">
+              ##### 啟發式合併
+              * 每個子樹用個線段樹或 treap 維護的話，可以一路合併上來算出答案
+                * 但是複雜度沒啥好保證，因為合併時必須把某一邊每個點分別處理
+              * 總是把小的樹合併到大的樹
+              * 總複雜度 $O(N \log^2 N)$！
+              
+            </script>
+          </section>
+          <section data-markdown>
+            <script type="text/template">
+              ### 平面圖
+              可以畫在平面上，使得任兩個邊只會在點上相交
+              
+            </script>
+          </section>
+          <section data-markdown>
+            <script type="text/template">
+              ### 平面圖
+              * $E = V + F - 2$
+              * 簡單（無自環、重邊）不要太小：$E \leq 3 V - 6$
+              * $K_{5}$ 不是平面圖
+              * $K_{3, 3}$ 也不是平面圖
+              
+            </script>
+          </section>
+          <section data-markdown>
+            <script type="text/template">
+              ##### $K_{5}$
+              ![](img/K5.svg)
+              
+            </script>
+          </section>
+          <section data-markdown>
+            <script type="text/template">
+              ##### $K_{3, 3}$
+              ![](img/K33.svg)
+              
+            </script>
+          </section>
+          <section data-markdown>
+            <script type="text/template">
+              ### 平面圖
+              平面圖是 5-退化 (5-degenerate)
+              
+              可以不斷找到度數 5 以下的點來拔，直到全部拔光
+              
+            </script>
+          </section>
+          <section data-markdown>
+            <script type="text/template">
+              ##### Defense Your Country
+              給你一個平面圖，請找一個最大團（完全子圖）
+              
+              $V \leq 2 \cdot 10^5$
+              
+            </script>
+          </section>
+          <section data-markdown>
+            <script type="text/template">
+              ### 二分圖
+              可以把所有點分成兩團，同一團的點之間都沒有邊
+              
+            </script>
+          </section>
+          <section data-markdown>
+            <script type="text/template">
+              ##### [分子碰撞實驗](https://tioj.ck.tp.edu.tw/problems/1672)
+              有一個長度 $N$ 的未知 0-1 序列，依序給你資訊表示某段區間加總是奇數還是偶數。
+              
+              每次你要判斷給你的資訊會不會和已知的資訊有所矛盾，並且如果有矛盾則捨棄之。
+              
+            </script>
+          </section>
+        </section>
+        <section>
+          <section data-markdown>
+            <script type="text/template">
+              ## 一些圖的經典問題
+              
+            </script>
+          </section>
+        </section>
+        <section>
+          <section data-markdown>
+            <script type="text/template">
+              ### 計算複雜度理論
+              
+            </script>
+          </section>
+          <section data-markdown>
+            <script type="text/template">
+              #### 問題：yes/no 問題
+              * 這個圖是不是一個平面圖？
+              * 從 $u$ 到 $v$ 的最短路徑長度是否小於 $k$？
+              
+            </script>
+          </section>
+          <section data-markdown>
+            <script type="text/template">
+              #### 非確定性圖靈機
+              ##### NONDETERMINISTIC TURING MACHINE
+              幸運值 Max, 永遠選到最快到終點的一條搜索路徑。
+              
+            </script>
+          </section>
+          <section data-markdown>
+            <script type="text/template">
+              #### COMPLEXITY CLASSES
+              * 普通電腦多項式時間可解：P
+              * Nondeterministic Turing machine 多項式時間可解：NP
+              
+            </script>
+          </section>
+          <section data-markdown>
+            <script type="text/template">
+              #### P = NP ?
+              
+            </script>
+          </section>
+          <section data-markdown>
+            <script type="text/template">
+              #### NPC (NP-Complete)
+              * NP 裡最難的
+              * 如果任意一個 NPC 問題在 P，那麼所有 NP 問題都在 P，於是 P = NP
+              
+            </script>
+          </section>
+          <section data-markdown>
+            <script type="text/template">
+              ##### 對解題的幫助
+              例如：已知一般圖最大團是 NPC
+              
+            </script>
+          </section>
+        </section>
+        <section>
+          <section data-markdown>
+            <script type="text/template">
+              ### 2-SAT
+              
+            </script>
+          </section>
+          <section>
+            <h3>2-SAT</h3>給你一個布林運算式，格式如下：
+            \[ (x_1 \lor \lnot x_2) \land (\lnot x_3 \lor \lnot x_1) \land (x_{4} \lor x_{3}) \]
+            能否為每個變數設值使得整個算式為 True？
+          </section>
+          <section data-markdown>
+            <script type="text/template">
+              ##### $x_1 \lor x_2$
+              ![](img/sat1.svg)
+              
+            </script>
+          </section>
+          <section data-markdown>
+            <script type="text/template">
+              ##### $x_1 \lor x_1$
+              ![](img/sat2.svg)
+              
+            </script>
+          </section>
+          <section data-markdown>
+            <script type="text/template">
+              不可能同時滿足 $x_i, \lnot x_i$
+              
+            </script>
+          </section>
+          <section data-markdown>
+            <script type="text/template">
+              $x_i, \lnot x_i$ 不能在同一個 SCC
+              
+            </script>
+          </section>
+          <section data-markdown>
+            <script type="text/template">
+              ##### 經典問題
+              給你一個 $R \times C$ 的方格，你有一種特殊的炮彈可以炸一排或一列，
+              不過同一排或一列最多只能炸一次。每一格除了可能是空地外，還有可能是
+              * 敵方要塞：必須炸兩次才能消滅他
+              * 敵方軍團：必須炸一次以上才能消滅
+              * 住宅區：最多只能炸一次
+              * 醫院：不能炸
+              
+              問你每一排及每一列該選擇炸或是不炸，才能使每一格都符合上述的需求？
+              
+            </script>
+          </section>
+          <section data-markdown>
+            <script type="text/template">
+              ##### 3-SAT
+              NPC
+              
+            </script>
+          </section>
+        </section>
+        <section>
+          <section data-markdown>
+            <script type="text/template">
+              ### 著色問題
+              
+            </script>
+          </section>
+          <section data-markdown>
+            <script type="text/template">
+              ### 著色問題
+              * 點著色：把每個點塗一個顏色，使得任兩個相鄰的點都不同色。
+              * 邊塗色：把每個邊塗一個顏色，使得一個點出去的邊都不同色。
+              * 都是 NPC
+              
+            </script>
+          </section>
+          <section data-markdown>
+            <script type="text/template">
+              #### 四色定理
+              平面圖可以 4 著色（點著色）
+              
+            </script>
+          </section>
+          <section data-markdown>
+            <script type="text/template">
+              #### Vizing’s theorem
+              任意一個簡單圖的邊著色數一定是 $d$ 或 $d+1$
+              
+              其中 $d$ 是所有點當中的最大點度
+              
+            </script>
+          </section>
+        </section>
+        <section>
+          <section data-markdown>
+            <script type="text/template">
+              ### 一些路徑
+              
+            </script>
+          </section>
+          <section data-markdown>
+            <script type="text/template">
+              #### Euler path
+              一筆畫遊戲
+              
+            </script>
+          </section>
+          <section data-markdown>
+            <script type="text/template">
+              #### Euler path 存在判定
+              * 無向圖有歐拉迴路的條件是其奇點的個數是 $0$
+              * 無向圖有歐拉路徑的條件是其奇點的個數是 $0$ 或 $2$
+              * 有向圖有歐拉迴路的條件是所有點出入度相同
+              * 有向圖有歐拉路徑的條件
+                * 所有點出入度相同
+                * 可以有一個點多一個入度、一個點多一個出度
+              
+            </script>
+          </section>
+          <section data-markdown>
+            <script type="text/template">
+              #### 找 Euler path
+              ```
+              vector<int> ans;
+              void dfs(int v) {
+                  for (e: adj[v]) {
+                      if (not e.visit) {
+                          dfs(e.dest);
+                      }
+                  }
+                  ans.push_back(v);
+              }
+              ```
+              
+            </script>
+          </section>
+          <section data-markdown>
+            <script type="text/template">
+              #### Hamiltonian path
+              每個點恰經過一次
+              
+            </script>
+          </section>
+          <section data-markdown>
+            <script type="text/template">
+              #### Hamiltonian path
+              NPC，通常做 $O(2^V V^2)$
+              <aside class="notes">今年 DP 看起來不會講到狀態壓縮</aside>
+              
+            </script>
+          </section>
+        </section>
+        <section>
+          <section data-markdown>
+            <script type="text/template">
+              ### 子集問題
+              
+            </script>
+          </section>
+          <section data-markdown>
+            <script type="text/template">
+              #### 匹配
+              ##### Matching
+              
+            </script>
+          </section>
+          <section data-markdown>
+            <script type="text/template">
+              #### 匹配
+              
+              幫每個點做配對，一個點只能配一次
+              
+              也就是一個邊集的子集 $E'$，使得 $E'$ 內的邊沒有共用點
+              
+            </script>
+          </section>
+          <section data-markdown>
+            <script type="text/template">
+              #### 二分圖匹配
+              * Flow
+              * 交錯路徑
+              
+            </script>
+          </section>
+          <section>
+            <h5>交錯路徑</h5><img class="vertmid space-right" width="30%" src="img/cross_road-0.svg"><img class="vertmid" width="55%" src="img/cross_road-1.svg">
+            <aside class="notes">一個匹配是最大匹配若且為若他沒有交錯路徑。 其實網路流作法本質上也是在找交錯路徑 只是那個作法多一層封裝</aside>
+          </section>
+          <section data-markdown>
+            <script type="text/template">
+              #### 一般圖匹配
+              有奇環
+              
+              縮花演算法
+              
+            </script>
+          </section>
+          <section data-markdown>
+            <script type="text/template">
+              #### 最大權匹配
+              * 二分圖還是 flow
+                * 另外有個匈牙利演算法
+              * 一般圖慘兮兮
+                * 找負環亂做
+              
+            </script>
+          </section>
+          <section data-markdown>
+            <script type="text/template">
+              ##### 中國郵差問題
+              給你一個帶邊權的圖，你要找一個路徑，
+              經過所有的邊至少一次（可以重複走）後回到出發點，問最短的路徑長
+              
+              <aside class="notes">奇點之間最小權匹配 很久以前成大辦全國賽出過保證奇點個數很少的裸中國郵差</aside>
+              
+            </script>
+          </section>
+          <section>
+            <h4>一些相關的問題</h4>
+            <ul>
+              <li class="space-bottom fragment">最大獨立點集：一個最大的點集 \( V' \) 使得裡面的點都不相鄰。其大小記做 \( I(G) \)。</li>
+              <li class="space-bottom fragment">最大匹配數：前面定義過了。其大小記做 \( M(G) \)。</li>
+              <li class="space-bottom fragment">最小點覆蓋：最小的一個點集，使得所有的邊都至少與點集裡的一個點相鄰。其大小記做 \( C_v(G) \)。</li>
+              <li class="space-bottom fragment">
+                最小邊覆蓋：最小的一個邊集，使得所有的點都至少與邊集裡的一個邊相鄰。其大小記做 \( C_e(G) \)。</li>
+            </ul>
+          </section>
+          <section>
+            <div class="space-right inline-block x3"><img src="img/match_probs-0.svg">獨立點集</div>
+            <div class="space-right inline-block x3"><img src="img/match_probs-1.svg">點覆蓋</div>
+            <div class="space-right inline-block x3"><img src="img/match_probs-2.svg">邊覆蓋</div>
+          </section>
+          <section data-markdown>
+            <script type="text/template">
+              ##### 關聯
+              * $I(G) + C_v(G) = V$
+              * $M(G) + C_e(G) = V$
+              * 對連通二分圖，有 $M(G) = C_v(G), I(G) = C_e(G)$
+              
+              <aside class="notes"><ul> <li>點覆蓋的補集就是獨立點集。</li><li>先找一個最大匹配，補成邊覆蓋。 M + M + V - 2M = V</li></ul>
+              所以二分圖上只要會匹配就四個都會了，印象中獨立集最常出、其次是點覆蓋</aside>
+              
+            </script>
+          </section>
+          <section data-markdown>
+            <script type="text/template">
+              ##### 近似最小點覆蓋
+              給你一張圖 $G$，
+              
+              請找出一組大小不超過 $2 C_v(G)$ 的點覆蓋集
+              
+              <aside class="notes">
+              挑一條未滿足的邊，把兩端選起來，重複到完成
+              </aside>
+              
+            </script>
+          </section>
+          <section data-markdown>
+            <script type="text/template">
+              這是一個 2-approximation algorithm
+              
+              approximate ratio: 求出的解跟最佳解保證差不超過 r 倍
+              
+              <aside class="notes">
+              greedy 挑度數最大的點是錯的，而且 approximate ratio 不是常數</br>
+              而且實際測資可構造，不過蠻難想到的
+              </aside>
+              
+            </script>
+          </section>
+        </section>
+        <section>
+          <section data-markdown>
+            <script type="text/template">
+              ### Counting
+              
+            </script>
+          </section>
+          <section data-markdown>
+            <script type="text/template">
+              ##### 二元樹的數量
+              求 $n$ 個點可以形成多少種不同的有根二元樹。
+              
+            </script>
+          </section>
+          <section>\[ f(n) = \sum_{k = 0}^{n-1} f(n-k-1) f(k) , \quad f(0) = 1\]<span class="fragment">卡特蘭數</span>
+          </section>
+          <section data-markdown>
+            <script type="text/template">
+              ##### 樹的數量
+              求 $n$ 個有編號的點可以形成多少種不同的樹。
+              
+            </script>
+          </section>
+          <section>
+            <h4>Prüfer sequence</h4><img width="35%" src="img/prufer.svg">
+            <aside class="notes">
+              <ul>
+                <li>1 2 1 2 6</li>
+                <li>最後一定是最大的數。</li>
+              </ul>
+            </aside>
+          </section>
+        </section>
+        <section>
+          <section data-markdown>
+            <script type="text/template">
+              ### 奇怪的例題
+              
+            </script>
+          </section>
+          <section data-markdown>
+            <script type="text/template">
+              ##### [Social Network](http://icpc2015.csie.ntnu.edu.tw/images/Contest/0_ICPC2015.pdf#page=23)
+              題敘太長了，看講義 144 頁
+              
+            </script>
+          </section>
+          <section data-markdown>
+            <script type="text/template">
+              ##### [Jurassic Jungle](https://hanoi18.kattis.com/problems/jurassicjungle)
+              給你 $N, M$，請問是否有 $N$ 點 $M$ 邊的簡單無向圖：
+              
+              從任意一個節點出發、每次隨意挑選新的節點走訪、走出來的 DFS 樹都是一條鍊，而且那個唯一的葉子與樹根有邊相連
+              
+              若存在，請構造一組
+              
+              $N \le 30$
+            </script>
+          </section>
+        </section>
+      </div>
+    </div>
+    <script src="lib/js/head.min.js"></script>
+    <script src="js/reveal.js"></script>
+    <script>
+      // More info https://github.com/hakimel/reveal.js#configuration
+      Reveal.initialize({
+        history: true,
+      
+        // More info https://github.com/hakimel/reveal.js#dependencies
+        dependencies: [
+          { src: 'plugin/markdown/marked.js' },
+          { src: 'plugin/markdown/markdown.js' },
+          { src: 'plugin/notes/notes.js', async: true },
+          { src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
+          { src: 'plugin/math/math.js', async: true }
+        ]
+      });
+      
+    </script>
+  </body>
+</html>
